@@ -45,8 +45,12 @@ class Telematics
         $this->lang = $lang;
     }
 
-    public function post($endpoint, $headers, $body){
+    public function post($endpoint, $headers, $body, $params=null){
         $curl = curl_init();
+        $url = $this->base_url.$endpoint;
+        if(!is_null($params)){
+            $url .="?".http_build_query($params);
+        }
         curl_setopt_array($curl, array(
             CURLOPT_URL => $this->base_url.$endpoint,
             CURLOPT_RETURNTRANSFER => true,
@@ -168,4 +172,24 @@ class Telematics
         return $res;
     }
 
+    /**
+     * [Description for generate_report]
+     *
+     * @param mixed $data
+     * 
+     * @return [type]
+     * 
+     */
+    public function generate_report($body){
+        $endpoint = '/login';
+        $headers = [
+            "content-type: multipart/form-data;"
+        ];
+        $params = [
+            'user_api_hash' =>$this->token,
+            'lang' => $this->lang
+        ];
+        $res = $this->post($endpoint,$headers,$body, $params);
+        return $res;
+    }
 }

@@ -92,7 +92,8 @@ class Telematics
         ];
         $body = [
             'email' => $email,
-            'password' => $password
+            'password' => $password,
+            'lang' => $this->lang
         ];
         $res = $this->post($endpoint,$headers,$body);
         return $res;

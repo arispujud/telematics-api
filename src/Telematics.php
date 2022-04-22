@@ -181,9 +181,9 @@ class Telematics
      * 
      */
     public function generate_report($body){
-        $endpoint = '/login';
+        $endpoint = '/generate_report';
         $headers = [
-            "content-type: multipart/form-data;"
+            "content-type: application/json;"
         ];
         $params = [
             'user_api_hash' =>$this->token,

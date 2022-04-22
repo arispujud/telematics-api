@@ -3,7 +3,7 @@
     "description": "PHP TransTRACK.ID Telematics API",
     "autoload": {
         "psr-4": {
-            "arispujud\\telematics-api\\": "src/"
+            "TelematicsApi\\": "src/"
         }
     },
     "minimum-stability": "dev",

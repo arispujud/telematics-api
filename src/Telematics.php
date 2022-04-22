@@ -52,7 +52,7 @@ class Telematics
             $url .="?".http_build_query($params);
         }
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->base_url.$endpoint,
+            CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,

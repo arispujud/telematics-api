@@ -9,15 +9,38 @@ class Telematics
     public $base_url = 'https://telematics.transtrack.id/api';
     public $custom_api = 'https://custom-api.transtrack.id/api';
 
+    /**
+     * [Constructor]
+     *
+     * @param mixed $token=null
+     * @param mixed $lang='en'
+     * 
+     */
     public function __construct($token=null, $lang='en'){
         $this->token = $token;
         $this->lang = $lang;
     }
 
+    /**
+     * [Set Telematics Token]
+     *
+     * @param mixed $token
+     * 
+     * @return [type]
+     * 
+     */
     public function setToken($token){
         $this->token = $token;
     }
 
+    /**
+     * [Set Response Language]
+     *
+     * @param mixed $lang
+     * 
+     * @return [type]
+     * 
+     */
     public function setLanguage($lang){
         $this->lang = $lang;
     }
@@ -85,6 +108,15 @@ class Telematics
         return $response;
     }
 
+    /**
+     * [Login by email & password to TransTRACK Telematics]
+     *
+     * @param mixed $email
+     * @param mixed $password
+     * 
+     * @return [Object]
+     * 
+     */
     public function login($email, $password){
         $endpoint = '/login';
         $headers = [
@@ -96,6 +128,43 @@ class Telematics
             'lang' => $this->lang
         ];
         $res = $this->post($endpoint,$headers,$body);
+        return $res;
+    }
+
+    /**
+     * [Get human readable for address]
+     *
+     * @param mixed $lat
+     * @param mixed $lng
+     * 
+     * @return [Object]
+     * 
+     */
+    public function get_address($lat, $lng){
+        $endpoint = '/geo_address';
+        $headers = [];
+        $params = [
+            'lat' => $lat,
+            'lon' => $lng
+        ];
+        $res = $this->getRaw($endpoint,$headers,$params);
+        return ['status' => 1, "address" => $res];
+    }
+
+    /**
+     * [Get All Devices]
+     *
+     * @return [Object]
+     * 
+     */
+    public function get_devices(){
+        $endpoint = '/get_devices';
+        $headers = [];
+        $params = [
+            'user_api_hash' => $this->token,
+            'lang' => $this->lang
+        ];
+        $res = $this->get($endpoint,$headers,$params);
         return $res;
     }
 

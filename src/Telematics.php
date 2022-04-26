@@ -16,7 +16,7 @@ class Telematics
      * @param mixed $lang='en'
      * 
      */
-    public function __construct($token=null, $lang='en'){
+    public function __construct($token=null, $lang='id'){
         $this->token = $token;
         $this->lang = $lang;
     }
@@ -45,9 +45,11 @@ class Telematics
         $this->lang = $lang;
     }
 
-    public function post($endpoint, $headers, $body, $params=null){
+    public function post($endpoint, $headers, $body, $params=null,$custom=false){
         $curl = curl_init();
-        $url = $this->base_url.$endpoint;
+        $baseUrl = $this->base_url;
+        if($custom) $baseUrl = $this->custom_api;
+        $url = $baseUrl.$endpoint;
         if(!is_null($params)){
             $url .="?".http_build_query($params);
         }
@@ -71,10 +73,23 @@ class Telematics
         return json_decode($response);
     }
 
-    public function get($endpoint, $headers, $params){
+    /**
+     * [Description for get]
+     *
+     * @param string $endpoint
+     * @param mixed $headers
+     * @param mixed $params
+     * @param mixed $custom=false
+     * 
+     * @return [type]
+     * 
+     */
+    public function get($endpoint, $headers, $params,$custom=false){
         $curl = curl_init();
+        $baseUrl = $this->base_url;
+        if($custom) $baseUrl = $this->custom_api;
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->base_url.$endpoint."?".http_build_query($params),
+            CURLOPT_URL => $baseUrl.$endpoint."?".http_build_query($params),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -168,19 +183,25 @@ class Telematics
             'user_api_hash' => $this->token,
             'lang' => $this->lang
         ];
-        $res = $this->get($endpoint,$headers,$params);
+        $res = $this->get($endpoint,$headers,$params,true);
         return $res;
     }
 
+    
     /**
-     * [Description for generate_report]
+     * [Generating Custom Report]
      *
-     * @param mixed $data
+     * @param array $devices
+     * @param datetime $date_from
+     * @param datetime $date_to
+     * @param string $format='json'
+     * @param integer $type
+     * @param bool $show_addresses=false
      * 
-     * @return [type]
+     * @return JSON
      * 
      */
-    public function generate_report($body){
+    public function generate_custom_report($devices, $date_from, $date_to, $type, $format, $show_addresses=false, $zones_instead=false, $skip_blank_result=true, $stop=60){
         $endpoint = '/generate_report';
         $headers = [
             "content-type: application/json;"
@@ -189,7 +210,33 @@ class Telematics
             'user_api_hash' =>$this->token,
             'lang' => $this->lang
         ];
-        $res = $this->post($endpoint,$headers,$body, $params);
+        $body = [
+            'devices' => $devices,
+            'date_from' => $date_from,
+            'date_to' => $date_to,
+            'format' => $format,
+            'type' => $type,
+            'send_to_email'=> null,
+            'show_addresses' => $show_addresses,
+            'zones_instead' => $zones_instead,
+            'skip_blank_result' => $skip_blank_result,
+            'stop' => $stop,
+            'generate' => true
+        ];
+        $res = $this->post($endpoint,$headers,json_encode($body), $params, true);
         return $res;
     }
+
+    public function get_object_history_report($devices, $date_from, $date_to, $show_addresses=false){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,25,'json',$show_addresses);
+        return $res;
+    }   
+    public function get_travelsheet_report($devices, $date_from, $date_to, $show_addresses=false){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,39,'json',$show_addresses,true,true,60);
+        return $res;
+    }   
+    public function get_drive_and_stop_report($devices, $date_from, $date_to, $show_addresses=false){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,3,'json',$show_addresses,true,true,60);
+        return $res;
+    }   
 }

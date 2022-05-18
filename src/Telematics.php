@@ -220,21 +220,54 @@ class Telematics
             'show_addresses' => $show_addresses,
             'zones_instead' => $zones_instead,
             'skip_blank_result' => $skip_blank_result,
-            'stop' => $stop,
+            'stops' => $stop,
             'generate' => true
         ];
         $res = $this->post($endpoint,$headers,json_encode($body), $params, true);
         return $res;
     }
 
+    /**
+     * [Description for get_object_history_report]
+     *
+     * @param array $devices
+     * @param string $date_from
+     * @param string $date_to
+     * @param bool $show_addresses=false
+     * 
+     * @return [type]
+     * 
+     */
     public function get_object_history_report($devices, $date_from, $date_to, $show_addresses=false){
         $res = $this->generate_custom_report($devices,$date_from,$date_to,25,'json',$show_addresses);
         return $res;
     }   
+    /**
+     * [Description for get_travelsheet_report]
+     *
+     * @param array $devices
+     * @param string $date_from
+     * @param string $date_to
+     * @param bool $show_addresses=false
+     * 
+     * @return [type]
+     * 
+     */
     public function get_travelsheet_report($devices, $date_from, $date_to, $show_addresses=false){
         $res = $this->generate_custom_report($devices,$date_from,$date_to,39,'json',$show_addresses,true,true,60);
         return $res;
     }   
+    /**
+     * [Description for get_drive_and_stop_report]
+     *
+     * @param array $devices
+     * @param string $date_from
+     * @param string $date_to
+     * @param bool $show_addresses=false
+     * 
+     * @return [type]
+     * 
+     */
     public function get_drive_and_stop_report($devices, $date_from, $date_to, $show_addresses=false){
         $res = $this->generate_custom_report($devices,$date_from,$date_to,3,'json',$show_addresses,true,true,60);
         return $res;

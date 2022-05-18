@@ -164,7 +164,8 @@ class Telematics
         $headers = [];
         $params = [
             'lat' => $lat,
-            'lon' => $lng
+            'lon' => $lng,
+            'lang' => $this->lang
         ];
         $res = $this->getRaw($endpoint,$headers,$params);
         return ['status' => 1, "address" => $res];

@@ -254,8 +254,8 @@ class Telematics
      * @return [type]
      * 
      */
-    public function get_travelsheet_report($devices, $date_from, $date_to, $show_addresses=false){
-        $res = $this->generate_custom_report($devices,$date_from,$date_to,39,'json',$show_addresses,true,true,60);
+    public function get_travelsheet_report($devices, $date_from, $date_to, $show_addresses=false,$stop=60){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,39,'json',$show_addresses,true,true,$stop);
         return $res;
     }   
     /**
@@ -269,8 +269,8 @@ class Telematics
      * @return [type]
      * 
      */
-    public function get_drive_and_stop_report($devices, $date_from, $date_to, $show_addresses=false){
-        $res = $this->generate_custom_report($devices,$date_from,$date_to,3,'json',$show_addresses,true,true,60);
+    public function get_drive_and_stop_report($devices, $date_from, $date_to, $show_addresses=false, $stop=60){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,3,'json',$show_addresses,true,true,$stop);
         return $res;
     }   
 }

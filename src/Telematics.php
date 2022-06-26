@@ -8,6 +8,7 @@ class Telematics
     public $lang;
     public $base_url = 'https://telematics.transtrack.id/api';
     public $custom_api = 'https://custom-api.transtrack.id/api';
+    public $speed_limit=null;
 
     /**
      * [Constructor]
@@ -271,6 +272,11 @@ class Telematics
      */
     public function get_drive_and_stop_report($devices, $date_from, $date_to, $show_addresses=false, $stop=60){
         $res = $this->generate_custom_report($devices,$date_from,$date_to,3,'json',$show_addresses,true,true,$stop);
+        return $res;
+    }   
+    public function get_general_information_report($devices, $date_from, $date_to, $show_addresses=false, $stop=60, $speed=100){
+        $this->speed_limit = $speed;
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,1,'json',$show_addresses,true,true,$stop);
         return $res;
     }   
 }

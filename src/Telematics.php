@@ -293,4 +293,8 @@ class Telematics
         $res = $this->generate_custom_report($devices,$date_from,$date_to,30,'json',false,false,false,60);
         return $res;
     }
+    public function get_fuel_level_report($devices, $date_from, $date_to){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,10,'json',false,false,false,60);
+        return $res;
+    }   
 }

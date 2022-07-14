@@ -9,6 +9,8 @@ class Telematics
     public $base_url = 'https://telematics.transtrack.id/api';
     public $custom_api = 'https://custom-api.transtrack.id/api';
     public $speed_limit=null;
+    public $ignition_off=null;
+    public $event_types=null;
 
     /**
      * [Constructor]
@@ -223,7 +225,10 @@ class Telematics
             'zones_instead' => $zones_instead,
             'skip_blank_result' => $skip_blank_result,
             'stops' => $stop,
-            'generate' => true
+            'generate' => true,
+            'speed_limit' => $this->speed_limit,
+            'ignition_off' => $this->ignition_off,
+            'event_types' => $this->event_types
         ];
         $res = $this->post($endpoint,$headers,json_encode($body), $params, true);
         return $res;
@@ -279,4 +284,13 @@ class Telematics
         $res = $this->generate_custom_report($devices,$date_from,$date_to,1,'json',$show_addresses,true,true,$stop);
         return $res;
     }   
+    public function get_temperature_report($devices, $date_from, $date_to){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,13,'json',false,false,false,60);
+        return $res;
+    }   
+    public function get_ignition_report($devices, $date_from, $date_to, $ignition_off=1){
+        $this->ignition_off = $ignition_off;
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,30,'json',false,false,false,60);
+        return $res;
+    }
 }

@@ -7,7 +7,7 @@ class Telematics
     public $token;
     public $lang;
     public $base_url = 'https://telematics.transtrack.id/api';
-    public $custom_api = 'https://custom-api.transtrack.id/api';
+    public $custom_api = 'https://custom-api-new.transtrack.id/api';
     public $speed_limit=null;
     public $ignition_off=null;
     public $event_types=null;
@@ -226,10 +226,16 @@ class Telematics
             'skip_blank_result' => $skip_blank_result,
             'stops' => $stop,
             'generate' => true,
-            'speed_limit' => $this->speed_limit,
-            'ignition_off' => $this->ignition_off,
-            'event_types' => $this->event_types
         ];
+        if(!is_null($this->speed_limit)){
+            $body['speed_limit'] = $this->speed_limit;
+        }
+        if(!is_null($this->ignition_off)){
+            $body['ignition_off'] = $this->ignition_off;
+        }
+        if(!is_null($this->event_types)){
+            $body['event_types'] = $this->event_types;
+        }
         $res = $this->post($endpoint,$headers,json_encode($body), $params, true);
         return $res;
     }
@@ -295,6 +301,10 @@ class Telematics
     }
     public function get_fuel_level_report($devices, $date_from, $date_to){
         $res = $this->generate_custom_report($devices,$date_from,$date_to,10,'json',false,false,false,60);
+        return $res;
+    }   
+    public function get_event_report($devices, $date_from, $date_to){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,8,'json',false,false,false,60);
         return $res;
     }   
 }

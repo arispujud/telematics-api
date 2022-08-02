@@ -11,6 +11,7 @@ class Telematics
     public $speed_limit=null;
     public $ignition_off=null;
     public $event_types=null;
+    public $geofences = null;
 
     /**
      * [Constructor]
@@ -236,6 +237,9 @@ class Telematics
         if(!is_null($this->event_types)){
             $body['event_types'] = $this->event_types;
         }
+        if(!is_null($this->geofences)){
+            $body['geofences'] = $this->geofences;
+        }
         $res = $this->post($endpoint,$headers,json_encode($body), $params, true);
         return $res;
     }
@@ -306,5 +310,24 @@ class Telematics
     public function get_event_report($devices, $date_from, $date_to){
         $res = $this->generate_custom_report($devices,$date_from,$date_to,8,'json',false,false,false,60);
         return $res;
-    }   
+    }  
+    public function get_geofences(){
+        $endpoint = '/get_geofences';
+        $headers = [];
+        $params = [
+            'user_api_hash' => $this->token,
+            'lang' => $this->lang
+        ];
+        $res = $this->get($endpoint,$headers,$params,true);
+        if($res->status){
+            return $res->items->geofences;
+        }
+        return [];
+    } 
+    public function get_geofence_report($devices, $date_from, $date_to, $geofence_ids){
+        $this->geofences = $geofence_ids;
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,8,'json',false,false,false,60);
+        $this->geofences = null;
+        return $res;
+    }  
 }

@@ -326,7 +326,13 @@ class Telematics
     } 
     public function get_geofence_report($devices, $date_from, $date_to, $geofence_ids){
         $this->geofences = $geofence_ids;
-        $res = $this->generate_custom_report($devices,$date_from,$date_to,8,'json',false,false,false,60);
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,7,'json',false,false,false,60);
+        $this->geofences = null;
+        return $res;
+    }  
+    public function get_geofence_touch_report($devices, $date_from, $date_to, $geofence_ids){
+        $this->geofences = $geofence_ids;
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,31,'json',false,false,false,60);
         $this->geofences = null;
         return $res;
     }  

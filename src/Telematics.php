@@ -336,4 +336,18 @@ class Telematics
         $this->geofences = null;
         return $res;
     }  
+    public function get_routes_report($devices, $date_from, $date_to, $speed=100){
+        $this->speed_limit = $speed;
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,43,'json',false,false,false,60);
+        $this->speed_limit = null;
+        return $res;
+    }  
+    public function get_fuel_filling_report($devices, $date_from, $date_to){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,11,'json',false,false,false,60);
+        return $res;
+    }  
+    public function get_fuel_theft_report($devices, $date_from, $date_to){
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,12,'json',false,false,false,60);
+        return $res;
+    }  
 }

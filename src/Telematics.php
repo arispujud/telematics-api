@@ -192,6 +192,22 @@ class Telematics
         return $res;
     }
 
+    /**
+     * [Get All Devices Latest]
+     *
+     * @return [Object]
+     * 
+     */
+    public function get_devices_latest(){
+        $endpoint = '/get_devices_latest';
+        $headers = [];
+        $params = [
+            'user_api_hash' => $this->token,
+            'lang' => $this->lang
+        ];
+        $res = $this->get($endpoint,$headers,$params,true);
+        return $res;
+    }
     
     /**
      * [Generating Custom Report]
@@ -349,5 +365,13 @@ class Telematics
     public function get_fuel_theft_report($devices, $date_from, $date_to){
         $res = $this->generate_custom_report($devices,$date_from,$date_to,12,'json',false,false,false,60);
         return $res;
-    }  
+    } 
+    public function get_drives_and_stop_geofences($devices, $date_from, $date_to){
+        $res = $this->generate_custom_report($devices, $date_from, $date_to, 18, 'json', false, false, false, 60);
+        return $res;
+    } 
+    public function odometer($devices, $date_from, $date_to){
+        $res = $this->generate_custom_report($devices, $date_from, $date_to, 62, 'json', false, false, false, 60);
+        return $res;
+    }
 }

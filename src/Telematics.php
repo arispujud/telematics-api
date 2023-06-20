@@ -7,7 +7,6 @@ class Telematics
     public $token;
     public $lang;
     public $base_url = 'https://telematics.transtrack.id/api';
-    public $custom_api = 'https://custom-api-new.transtrack.id/api';
     public $speed_limit=null;
     public $ignition_off=null;
     public $event_types=null;
@@ -49,10 +48,9 @@ class Telematics
         $this->lang = $lang;
     }
 
-    public function post($endpoint, $headers, $body, $params=null,$custom=false){
+    public function post($endpoint, $headers, $body, $params=null){
         $curl = curl_init();
         $baseUrl = $this->base_url;
-        if($custom) $baseUrl = $this->custom_api;
         $url = $baseUrl.$endpoint;
         if(!is_null($params)){
             $url .="?".http_build_query($params);
@@ -83,15 +81,13 @@ class Telematics
      * @param string $endpoint
      * @param mixed $headers
      * @param mixed $params
-     * @param mixed $custom=false
      * 
      * @return [type]
      * 
      */
-    public function get($endpoint, $headers, $params,$custom=false){
+    public function get($endpoint, $headers, $params){
         $curl = curl_init();
         $baseUrl = $this->base_url;
-        if($custom) $baseUrl = $this->custom_api;
         curl_setopt_array($curl, array(
             CURLOPT_URL => $baseUrl.$endpoint."?".http_build_query($params),
             CURLOPT_RETURNTRANSFER => true,
@@ -188,7 +184,7 @@ class Telematics
             'user_api_hash' => $this->token,
             'lang' => $this->lang
         ];
-        $res = $this->get($endpoint,$headers,$params,true);
+        $res = $this->get($endpoint,$headers,$params);
         return $res;
     }
 
@@ -205,7 +201,7 @@ class Telematics
             'user_api_hash' => $this->token,
             'lang' => $this->lang
         ];
-        $res = $this->get($endpoint,$headers,$params,true);
+        $res = $this->get($endpoint,$headers,$params);
         return $res;
     }
     
@@ -256,7 +252,7 @@ class Telematics
         if(!is_null($this->geofences)){
             $body['geofences'] = $this->geofences;
         }
-        $res = $this->post($endpoint,$headers,json_encode($body), $params, true);
+        $res = $this->post($endpoint,$headers,json_encode($body), $params);
         return $res;
     }
 

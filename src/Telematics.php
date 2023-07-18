@@ -370,4 +370,11 @@ class Telematics
         $res = $this->generate_custom_report($devices, $date_from, $date_to, 62, 'json', false, false, false, 60);
         return $res;
     }
+    public function get_over_speeding_summary_report($devices, $date_from, $date_to, $speed=60)
+    {
+        $this->speed_limit = $speed;
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,34,'json',false,false,false,60);
+        $this->speed_limit = null;
+        return $res;
+    }
 }

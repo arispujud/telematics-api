@@ -377,4 +377,10 @@ class Telematics
         $this->speed_limit = null;
         return $res;
     }
+    public function get_general_information_custom_3_report($devices, $date_from, $date_to, $show_addresses=false, $stop=60, $speed=100)
+    {
+        $this->speed_limit = $speed;
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,49,'json',$show_addresses,true,true,$stop);
+        return $res;
+    }
 }

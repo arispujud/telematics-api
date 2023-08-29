@@ -383,4 +383,9 @@ class Telematics
         $res = $this->generate_custom_report($devices,$date_from,$date_to,49,'json',$show_addresses,true,true,$stop);
         return $res;
     }
+    public function get_odometer_daily_report($devices, $date_from, $date_to, $show_addresses=false, $stop=60)
+    {
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,78,'json',$show_addresses,true,true,$stop);
+        return $res;
+    }
 }

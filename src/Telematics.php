@@ -388,4 +388,9 @@ class Telematics
         $res = $this->generate_custom_report($devices,$date_from,$date_to,78,'json',$show_addresses,true,true,$stop);
         return $res;
     }
+    public function get_temperature_with_summary_report($devices, $date_from, $date_to)
+    {
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,77,'json',false,false,false,60);
+        return $res;
+    }
 }

@@ -331,7 +331,7 @@ class Telematics
             'lang' => $this->lang
         ];
         $res = $this->get($endpoint,$headers,$params,true);
-        if($res->status){
+        if($res->items->geofences != []){
             return $res->items->geofences;
         }
         return [];

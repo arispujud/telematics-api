@@ -204,6 +204,25 @@ class Telematics
         $res = $this->get($endpoint,$headers,$params);
         return $res;
     }
+
+    /**
+     * [Get Specific Devices Latest]
+     *
+     * @return [Object]
+     * 
+     */
+    public function get_devices_specific($devices){
+        $endpoint = '/get_devices';
+        $headers = [];
+        $params = [
+            'user_api_hash' => $this->token,
+            'lang' => $this->lang,
+            'id[0]' => $devices
+
+        ];
+        $res = $this->get($endpoint,$headers,$params);
+        return $res;
+    }
     
     /**
      * [Generating Custom Report]

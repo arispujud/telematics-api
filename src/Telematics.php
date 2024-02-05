@@ -207,6 +207,7 @@ class Telematics
 
     /**
      * [Get Specific Devices Latest]
+     * @param integer $devices
      *
      * @return [Object]
      * 
@@ -410,6 +411,23 @@ class Telematics
     public function get_temperature_with_summary_report($devices, $date_from, $date_to)
     {
         $res = $this->generate_custom_report($devices,$date_from,$date_to,77,'json',false,false,false,60);
+        return $res;
+    }
+    /**
+     * [Description for get_drive_and_stop_report]
+     *
+     * @param array $devices
+     * @param string $date_from
+     * @param string $date_to
+     * @param integer $speed=65
+     * 
+     * @return [type]
+     * 
+     */
+    public function get_overspeed($devices,$date_from,$date_to,$speed=65){
+        $this->speed_limit = $speed;
+        $res = $this->generate_custom_report($devices,$date_from,$date_to,5,'json',false,false,true,60);
+        $this->speed_limit = null;
         return $res;
     }
 }
